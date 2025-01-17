@@ -1,6 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Authentication routes
+Auth::routes(); // Automatically sets up login, register, etc.
+
+Route::get('/profile', [HomeController::class, 'profile'])->name('profile')->middleware('auth');
+
+Route::group(['middleware' => ['auth','isAdmin']], function () {
+
+    Route::get('/dashboard', function () {
+       return view('admin.index');
+    });
+ 
+ });
+
