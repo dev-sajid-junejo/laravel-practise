@@ -5,7 +5,7 @@ use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-
+use App\Http\Controllers\Frontend\FrontendController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,8 +19,10 @@ use App\Http\Controllers\HomeController;
 
 
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [FrontendController::class, 'index']);
+Route::get('/category', [FrontendController::class, 'category']);
+Route::get('view-category/{slug}', [FrontendController::class, 'viewcategory']);
+Route::get('category/{cate_slug}/{prod_slug}', [FrontendController::class, 'productview']);
 
 // Authentication routes
 Auth::routes(); // Automatically sets up login, register, etc.

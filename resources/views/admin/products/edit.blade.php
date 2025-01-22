@@ -69,7 +69,7 @@
                 <textarea class="form-control" name="meta_description">{{ $product->meta_description}}</textarea>
             </div>
             @if($product->image)
-            <img src="{{ asset('assets/uploads/products/'. $product->image) }}" alt="Product Image" >
+            <img src="{{ asset('assets/uploads/products/'. $product->image) }}" class="cate-edit-images" alt="Product Image" >
             @endif
             <div class="col-md-12">
             <input type="file" name="image" class="form-control">

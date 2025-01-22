@@ -6,6 +6,12 @@
     max-width: 100px;
 }
 
+.cate-edit-images{
+    width: 500px;
+    display: block;
+    margin: 0 auto;
+}
+
 .form-select {
     display: block;
     width: 100%;
