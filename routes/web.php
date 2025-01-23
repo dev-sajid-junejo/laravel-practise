@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Frontend\FrontendController;
+use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\CheckoutController;
+use Illuminate\Routing\RouteGroup;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,9 +25,22 @@ use App\Http\Controllers\Frontend\FrontendController;
 
 Route::get('/', [FrontendController::class, 'index']);
 Route::get('/category', [FrontendController::class, 'category']);
-Route::get('view-category/{slug}', [FrontendController::class, 'viewcategory']);
+Route::get('category/{slug}', [FrontendController::class, 'viewcategory']);
 Route::get('category/{cate_slug}/{prod_slug}', [FrontendController::class, 'productview']);
 
+Route::post('add-to-cart', [CartController::class, 'addProduct']);
+Route::post('delete-cart-item', [CartController::class, 'deleteproduct']);
+Route::post('update-cart', [CartController::class, 'updatecart']);
+
+//CheckoutController
+
+
+
+Route::middleware(['auth'])->group(function(){
+   Route::get('checkout', [CheckoutController::class, 'index']);
+   Route::get('cart', [CartController::class, 'viewcart']);
+
+});
 // Authentication routes
 Auth::routes(); // Automatically sets up login, register, etc.
 

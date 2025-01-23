@@ -48,8 +48,9 @@ class FrontendController extends Controller
     {
         if(Category::where('slug', $cate_slug)->exists())
         {
-            if(Category::where('slug', $prod_slug)->exists())
+            if(Product::where('slug', $prod_slug)->exists())
             {
+
                 $product = Product::where('slug', $prod_slug)->first();
                 return view('frontend.products.view', compact('product'));
             }

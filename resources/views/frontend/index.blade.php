@@ -14,7 +14,7 @@
                 @foreach ($featured_products as $prod)
                 <div class="item">
                     <div class="card">
-                        <img src="{{ asset('assets/uploads/products/' . $prod->image ) }}" alt="Product Image">
+                        <img src="{{ asset('assets/uploads/products/' . $prod->image ) }}" class="w-300 h-300" style="aspect-ratio: 5/4;" alt="Product Image">
                         <div class="card-body">
                             <h5> {{ $prod->name }} </h5>
                             <span class="float-start">{{ $prod->selling_price }}</span>
@@ -34,9 +34,9 @@
             <div class="owl-carousel featured-carousel owl-theme">
                 @foreach ($trending_products as $trprod)
                 <div class="item">
-                    <a href="{{ url('view-category/' . $trprod->slug) }}">
+                    <a href="{{ url('category/' . $trprod->slug) }}">
                         <div class="card">
-                            <img src="{{ asset('assets/uploads/category/' . $trprod->image ) }}" alt="Product Image">
+                            <img src="{{ asset('assets/uploads/category/' . $trprod->image ) }}" class="w-300 h-300" style="aspect-ratio: 5/4;" alt="Product Image">
                             <div class="card-body">
                                 <h5> {{ $trprod->name }} </h5>
                                 <span class="float-start">{{ $trprod->selling_price }}</span>
