@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CheckoutController;
+use App\Http\Controllers\Frontend\UserController;
 use Illuminate\Routing\RouteGroup;
 
 /*
@@ -24,6 +25,7 @@ use Illuminate\Routing\RouteGroup;
 
 
 Route::get('/', [FrontendController::class, 'index']);
+Route::get('/home', [FrontendController::class, 'index']);
 Route::get('/category', [FrontendController::class, 'category']);
 Route::get('category/{slug}', [FrontendController::class, 'viewcategory']);
 Route::get('category/{cate_slug}/{prod_slug}', [FrontendController::class, 'productview']);
@@ -32,13 +34,17 @@ Route::post('add-to-cart', [CartController::class, 'addProduct']);
 Route::post('delete-cart-item', [CartController::class, 'deleteproduct']);
 Route::post('update-cart', [CartController::class, 'updatecart']);
 
+
 //CheckoutController
 
 
 
 Route::middleware(['auth'])->group(function(){
-   Route::get('checkout', [CheckoutController::class, 'index']);
    Route::get('cart', [CartController::class, 'viewcart']);
+   Route::get('checkout', [CheckoutController::class, 'index']);
+   Route::post('place-order', [CheckoutController::class, 'placeorder']);
+   Route::get('my-orders', [UserController::class, 'index']);
+   Route::get('view-order/{id}', [UserController::class, 'view']);
 
 });
 // Authentication routes

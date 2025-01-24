@@ -35,6 +35,9 @@
 
                     <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         <li>
+                            <a class="dropdown-item" href="{{ url('my-orders') }}">My Orders</a>
+                        </li>
+                        <li>
                             <a class="dropdown-item" href="#">{{ __('My Profile') }}</a>
                         </li>
                         <li>
