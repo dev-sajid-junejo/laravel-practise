@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -24,7 +26,7 @@ use Illuminate\Routing\RouteGroup;
 
 
 
-Route::get('/', [FrontendController::class, 'index']);
+Route::get('/', [FrontendController::class, 'index'])->name('homepage');
 Route::get('/home', [FrontendController::class, 'index']);
 Route::get('/category', [FrontendController::class, 'category']);
 Route::get('category/{slug}', [FrontendController::class, 'viewcategory']);
@@ -45,6 +47,8 @@ Route::middleware(['auth'])->group(function(){
    Route::post('place-order', [CheckoutController::class, 'placeorder']);
    Route::get('my-orders', [UserController::class, 'index']);
    Route::get('view-order/{id}', [UserController::class, 'view']);
+   Route::post('proceed-to-pay', [CheckoutController::class, 'razorpaycheck']);
+
 
 });
 // Authentication routes
@@ -69,9 +73,19 @@ Route::group(['middleware' => ['auth','isAdmin']], function () {
     Route::get('/products', [ProductController::class, 'index']);
     Route::get('/add-products', [ProductController::class, 'add']);
     Route::post('/insert-products', [ProductController::class, 'insert']);
+    Route::get('/send-notification', [ProductController::class, 'sendNotification']);
     Route::get('/edit-product/{id}', [ProductController::class, 'edit']);
     Route::put('/update-product/{id}', [ProductController::class, 'update']);
     Route::get('/delete-product/{id}', [ProductController::class, 'destroy']);
 
+    Route::get('users', [FrontendController::class, 'users']);
+    Route::get('orders', [OrderController::class, 'index']);
+    Route::get('admin/view-order/{id}', [OrderController::class, 'view']);
+    Route::put('update-order/{id}', [OrderController::class, 'updateorder']);
+    Route::get('order-history', [OrderController::class, 'orderhistory']);
+
+
+    Route::get('users', [DashboardController::class, 'users']);
+    Route::get('view-users/{id}', [DashboardController::class, 'viewusers']);
    });
 

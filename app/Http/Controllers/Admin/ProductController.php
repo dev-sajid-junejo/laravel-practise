@@ -2,15 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Services\NotificationService;
+use Twilio\Rest\Client;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductRequest;
 use App\Models\Category;
+use App\Models\User;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
-    //
+    protected $notificationService;
+
+    public function __construct(NotificationService $notificationService)
+    {
+        $this->notificationService = $notificationService;
+    }
     public function index()
     {
         $product = Product::all();
@@ -32,39 +41,49 @@ class ProductController extends Controller
         return view('admin.products.edit', compact('product', 'category'));
     }
 
-    public function insert(Request $request)
+    public function insert(ProductRequest $request)
     {
+        $validatedData = $request->validated();
+        // If validation passes, continue with product creation
         $products = new Product();
 
-        if($request->hasFile('image'))
-        {   
+        if ($request->hasFile('image')) {
             $file = $request->file('image');
             $ext = $file->getClientOriginalExtension();
-            $filename = time().'.'.$ext;
-            $file->move('assets/uploads/products/',$filename);
+            $filename = time() . '.' . $ext;
+            $file->move('assets/uploads/products/', $filename);
             $products->image = $filename;
-            // return view()
         }
-        $products->cate_id = $request->input('cate_id');
-        $products->name = $request->input('name');
-        $products->slug = $request->input('slug');
-        $products->small_description = $request->input('small_description');
-        $products->description = $request->input('description');
-        $products->original_price = $request->input('original_price');
-        $products->selling_price = $request->input('selling_price');
-        $products->tax = $request->input('tax');
-        $products->qty = $request->input('qty');
+
+        $products->cate_id = $validatedData['cate_id'];
+        $products->name = $validatedData['name'];
+        $products->slug = $validatedData['slug'];
+        $products->small_description = $validatedData['small_description'];
+        $products->description = $validatedData['description'];
+        $products->original_price = $validatedData['original_price'];
+        $products->selling_price = $validatedData['selling_price'];
+        $products->tax = $validatedData['tax'];
+        $products->qty = $validatedData['qty'];
         $products->status = $request->input('status') == TRUE ? '1' : '0';
         $products->trending = $request->input('trending') == TRUE ? '1' : '0';
         $products->meta_title = $request->input('meta_title');
         $products->meta_keywords = $request->input('meta_keywords');
         $products->meta_description = $request->input('meta_description');
-        $products->save();
-        return redirect('/products')->with('status', 'Product added Succesfully');
+        // $products->save();
+        $users = User::all(); // Fetch all users
+        $count = 0;
+        foreach ($users as $user) {
+            $response = $this->notificationService->sendSmsNotification($user->phone, $products);
+            dd($response);
+        }
+        dd($count);
+        return redirect('/products')->with('status', 'Product added successfully');
     }
 
-    public function update(Request $request, $id)
+
+    public function update(ProductRequest $request, $id)
     {
+        $validatedData = $request->validated();
         $product = Product::find($id);
         if($request->hasFile('image'))
         {
@@ -80,19 +99,20 @@ class ProductController extends Controller
             $product->image = $filename;   
         }
 
-        $product->name = $request->input('name');
-        $product->slug = $request->input('slug');
-        $product->small_description = $request->input('small_description');
-        $product->description = $request->input('description');
-        $product->original_price = $request->input('original_price');
-        $product->selling_price = $request->input('selling_price');
-        $product->tax = $request->input('tax');
-        $product->qty = $request->input('qty');
-        $product->status = $request->input('status') == TRUE ? '1' : '0';
-        $product->trending = $request->input('trending') == TRUE ? '1' : '0';
-        $product->meta_title = $request->input('meta_title');
-        $product->meta_keywords = $request->input('meta_keywords');
-        $product->meta_description = $request->input('meta_description');
+        $product->name = $validatedData['name'];
+        $product->slug = $validatedData['slug'];
+        $product->small_description = $validatedData['small_description'];
+        $product->description = $validatedData['description'];
+        $product->original_price = $validatedData['original_price'];
+        $product->selling_price = $validatedData['selling_price'];
+        $product->tax = $validatedData['tax'];
+        $product->qty = $validatedData['qty'];
+        $product->status = $validatedData['status'] == TRUE ? '1' : '0';
+        $product->trending = $validatedData['trending'] == TRUE ? '1' : '0';
+        $product->meta_title = $validatedData['meta_title'];
+        $product->meta_keywords = $validatedData['meta_keywords'];
+        $product->meta_description = $validatedData['meta_description'];
+        dd($product);
         $product->update();
         return redirect('/products')->with('status', 'Product updated Succesfully');
 

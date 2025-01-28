@@ -12,15 +12,24 @@
         <div class="row">
             <div class="col-md-6 mb-3">
                 <label for="name">Name</label>
-                <input type="text" value="{{ $category->name }}" class="form-control" name="name">
+                <input type="text" value="{{ $category->name }}" class="form-control" name="name" required>
+                @error('name')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="col-md-6 mb-3">
                 <label for="slug">Slug</label>
-                <input type="text" value="{{ $category->slug }}" class="form-control" name="slug">
+                <input type="text" value="{{ $category->slug }}" class="form-control" name="slug" required>
+                @error('slug')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="col-md-12 mb-3">
                 <label for="name">Description</label>
-                <textarea class="form-control" name="description" rows="3">{{ $category->description }}</textarea>
+                <textarea class="form-control" name="description" rows="3" required>{{ $category->description }}</textarea>
+                @error('description')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="col-md-6 mb-3">
                 <label for="status">Status</label>
@@ -43,10 +52,13 @@
                 <textarea class="form-control" name="meta_description">{{ $category->meta_descrip }}</textarea>
             </div>
             @if($category->image)
-            <img src="{{ asset('assets/uploads/category/'. $category->image) }}" alt="Category Image" >
+            <img src="{{ asset('assets/uploads/category/'. $category->image) }}" class="cate-edit-images" alt="Category Image" >
             @endif
             <div class="col-md-12">
-            <input type="file" name="image" class="form-control">
+            <input type="file" name="image" class="form-control" required>
+            @error('image')
+                    <span class="text-danger">{{ $message }}</span>
+            @enderror
             </div>
             <div class="col-md-12">
                 <button type="submit" class="btn btn-primary">Submit</button>

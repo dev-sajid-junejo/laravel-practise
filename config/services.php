@@ -29,5 +29,11 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    'twilio' => [
+    'sid' => env('TWILIO_SID'),
+    'auth_token' => env('TWILIO_AUTH_TOKEN'),
+    'phone_number' => env('TWILIO_PHONE_NUMBER'),
+    'messaging_service_sid' => env('TWILIO_MESSAGING_SERVICE_SID'),
+    ],
 
 ];

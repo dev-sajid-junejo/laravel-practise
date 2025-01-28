@@ -11,15 +11,24 @@
         <div class="row">
             <div class="col-md-6 mb-3">
                 <label for="name">Name</label>
-                <input type="text" class="form-control" name="name">
+                <input type="text" class="form-control" name="name" required>
+                @error('name')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="col-md-6 mb-3">
-                <label for="slug">Slug</label>
-                <input type="text" class="form-control" name="slug">
+                <label for="slug">Slug</label> 
+                <input type="text" class="form-control" name="slug" required>
+                @error('slug')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="col-md-12 mb-3">
                 <label for="name">Description</label>
-                <textarea class="form-control" name="description" rows="3"></textarea>
+                <textarea class="form-control" name="description" rows="3" required></textarea>
+                @error('description')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="col-md-6 mb-3">
                 <label for="status">Status</label>
@@ -42,7 +51,10 @@
                 <textarea class="form-control" name="meta_description"></textarea>
             </div>
             <div class="col-md-12">
-            <input type="file" name="image" class="form-control">
+            <input type="file" name="image" class="form-control" required>
+            @error('image')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="col-md-12">
                 <button type="submit" class="btn btn-primary">Submit</button>

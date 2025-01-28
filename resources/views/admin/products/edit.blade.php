@@ -14,39 +14,66 @@
                 <select class="form-select">
                     <option value="">{{ $product->category->name}}</option>
                 </select>
+                @error('cate_id')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="col-md-6 mb-3">
                 <label for="name">Name</label>
-                <input type="text" value="{{ $product->name}}" class="form-control" name="name">
+                <input type="text" value="{{ $product->name}}" class="form-control" name="name" required>
+                @error('name')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
 
             <div class="col-md-6 mb-3">
                 <label for="slug">Slug</label>
-                <input type="text" value="{{ $product->slug}}" class="form-control" name="slug">
+                <input type="text" value="{{ $product->slug}}" class="form-control" name="slug" required>
+                @error('slug')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="col-md-12 mb-3">
                 <label for="name">Small Description</label>
                 <textarea class="form-control" name="small_description" rows="3">{{$product->small_description}}</textarea>
+                @error('small_description')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="col-md-12 mb-3">
                 <label for="name">Description</label>
-                <textarea class="form-control" name="description" rows="3">{{ $product->description}}</textarea>
+                <textarea class="form-control" name="description" rows="3" required>{{ $product->description}}</textarea>
+                @error('description')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="col-md-6 mb-3">
                 <label for="">Original Price</label>
-                <input type="number" class="form-control" value="{{ $product->original_price }}" name="original_price" id="">
+                <input type="number" class="form-control" value="{{ $product->original_price }}" name="original_price" id="" required>
+                @error('original_price')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="col-md-6 mb-3">
                 <label for="">Selling Price</label>
-                <input type="number" class="form-control" name="selling_price" value="{{ $product->selling_price}}" id="">
+                <input type="number" class="form-control" name="selling_price" value="{{ $product->selling_price}}" id="" required>
+                @error('selling_price')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="col-md-6 mb-3">
                 <label for="">Tax</label>
-                <input type="number" class="form-control" name="tax" value="{{ $product->tax}}" id="">
+                <input type="number" class="form-control" name="tax" value="{{ $product->tax}}" id="" required>
+                @error('tax')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="col-md-6 mb-3">
                 <label for="">Quantity</label>
-                <input type="number" class="form-control" name="qty" value="{{ $product->qty}}" id="">
+                <input type="number" class="form-control" name="qty" value="{{ $product->qty}}" id="" required>
+                @error('qty')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="col-md-6 mb-3">
                 <label for="status">Status</label>
@@ -72,7 +99,10 @@
             <img src="{{ asset('assets/uploads/products/'. $product->image) }}" class="cate-edit-images" alt="Product Image" >
             @endif
             <div class="col-md-12">
-            <input type="file" name="image" class="form-control">
+            <input type="file" name="image" class="form-control" required>
+            @error('image')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="col-md-12">
                 <button type="submit" class="btn btn-primary">Submit</button>

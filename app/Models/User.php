@@ -41,4 +41,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function routeNotificationForTwilio()
+    {
+        return $this->phone; // Replace with the phone attribute in your model
+    }
+
+
 }

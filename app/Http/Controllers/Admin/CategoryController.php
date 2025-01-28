@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -23,8 +24,9 @@ class CategoryController extends Controller
         return view('admin.category.add');
     }
 
-    public function insert(Request $request)
+    public function insert(CategoryRequest $request)
     {
+        $validatedData = $request->validated();
         $category = new Category();
         if($request->hasFile('image'))
         {   
@@ -32,12 +34,12 @@ class CategoryController extends Controller
             $ext = $file->getClientOriginalExtension();
             $filename = time().'.'.$ext;
             $file->move('assets/uploads/category/',$filename);
-            $category->image = $filename;
+            $category->image = $validatedData[$filename];
             // return view()
         }
-        $category->name = $request->input('name');
-        $category->slug = $request->input('slug');
-        $category->description = $request->input('description');
+        $category->name = $validatedData['name'];
+        $category->slug = $validatedData['slug'];
+        $category->description = $validatedData['description'];
         $category->status = $request->input('status') == TRUE ? '1' : '0';
         $category->popular = $request->input('popular') == TRUE ? '1' : '0';
         $category->meta_title = $request->input('meta_title');
@@ -53,7 +55,8 @@ class CategoryController extends Controller
         return view('admin.category.edit', compact('category'));
     }
 
-    function update(Request $request,$id){
+    function update(CategoryRequest $request,$id){
+        $validatedData = $request->validated();
         $category = Category::find($id);
         if($request->hasFile('image'))
         {
@@ -66,11 +69,11 @@ class CategoryController extends Controller
             $ext = $file->getClientOriginalExtension();
             $filename = time().'.'.$ext;
             $file->move('assets/uploads/category/',$filename);
-            $category->image = $filename;   
+            $category->image = $validatedData[$filename];   
         }
-        $category->name = $request->input('name');
-        $category->slug = $request->input('slug');
-        $category->description = $request->input('description');
+        $category->name = $validatedData['name'];
+        $category->slug = $validatedData['slug'];
+        $category->description = $validatedData['description'];
         $category->status = $request->input('status') == TRUE ? '1' : '0';
         $category->popular = $request->input('popular') == TRUE ? '1' : '0';
         $category->meta_title = $request->input('meta_title');

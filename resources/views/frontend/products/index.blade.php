@@ -15,7 +15,7 @@
             <h2>{{ $category->name }}</h2>
                 @foreach ($products as $prod)
                 <div class="col-md-4 mb-3">
-                    <div class="card">
+                    <div class="card mb-3">
                         <a href="{{ url('category/' . $category->slug . '/' . $prod->slug ) }}">
                         <img src="{{ asset('assets/uploads/products/' . $prod->image ) }}" class="w-100 h-100" style="aspect-ratio: 5/4;" alt="Product Image">
                         <div class="card-body">
@@ -25,6 +25,9 @@
                         </div>
                     </a>
                     </div>
+                    <br>
+                    <br>
+                    <br>
                </div>
                 @endforeach
         </div>

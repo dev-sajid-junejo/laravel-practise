@@ -38,7 +38,7 @@ class FrontendController extends Controller
         }
         else
         {
-            return redirect('/')->with('status', "Slug doesn't exists");
+            return redirect('homepage')->with('status', "Slug doesn't exists");
         }
         
 
@@ -55,12 +55,12 @@ class FrontendController extends Controller
                 return view('frontend.products.view', compact('product'));
             }
             else{
-                return redirect('/')->with('status', "The Link is not found");
+                return redirect('homepage')->with('status', "The Link is not found");
             }
         }
         else
         {
-            return redirect('/')->with('status', "The Category is not found");
+            return redirect('homepage')->with('status', "The Category is not found");
         }
     }
 
