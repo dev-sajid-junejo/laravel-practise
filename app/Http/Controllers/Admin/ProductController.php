@@ -3,21 +3,24 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Services\NotificationService;
-use Twilio\Rest\Client;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\Product;
+use App\Services\MailService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
     protected $notificationService;
+    protected $mailService;
 
-    public function __construct(NotificationService $notificationService)
+    public function __construct(NotificationService $notificationService, MailService $mailService)
     {
+        $this->mailService = $mailService;
         $this->notificationService = $notificationService;
     }
     public function index()
@@ -69,14 +72,29 @@ class ProductController extends Controller
         $products->meta_title = $request->input('meta_title');
         $products->meta_keywords = $request->input('meta_keywords');
         $products->meta_description = $request->input('meta_description');
-        // $products->save();
+        $products->save();
         $users = User::all(); // Fetch all users
-        $count = 0;
         foreach ($users as $user) {
-            $response = $this->notificationService->sendSmsNotification($user->phone, $products);
-            dd($response);
+            // Check if the user has a phone number
+            if (!empty($user->phone)) {
+                try {
+                    
+                    $this->mailService->sendMail(
+                        $user->email, // Recipient email
+                        'New Product Added! 🎉', // Email subject
+                        'emails.new_product_notification', // Blade view
+                        ['products' => $products] // Data to pass to the view
+                    );
+                    $response = $this->notificationService->sendSmsNotification($user->phone, $products);
+                    // Log success or handle response if needed
+                    if (!$response['success']) {
+                        Log::error("Failed to send SMS to {$user->phone}: {$response['error']}");
+                    }
+                } catch (\Exception $e) {
+                    Log::error("Error sending SMS to {$user->phone}: " . $e->getMessage());
+                }
+            }
         }
-        dd($count);
         return redirect('/products')->with('status', 'Product added successfully');
     }
 

@@ -89,7 +89,7 @@ class CheckoutController extends Controller
             $user->state = $validatedData['state'];
             $user->country = $validatedData['country'];
             $user->pincode = $validatedData['pincode'];
-            $user->update();
+            $user->save();
         }
 
         // Clear the user's cart

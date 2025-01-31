@@ -18,19 +18,19 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Tracking Number</th>
-                                    <th>Total Price</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    <th class="text-center">Tracking Number</th>
+                                    <th class="text-center">Total Price</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($orders as $item)
                                     <tr>
-                                        <td>{{ $item->tracking_no }}</td>
-                                        <td>{{ $item->total_price }}</td>
-                                        <td>{{ $item->status == '0' ? 'pending':'completed' }}</td>
-                                        <td>
+                                        <td class="text-center">{{ $item->tracking_no }}</td>
+                                        <td class="text-center">{{ $item->total_price }}</td>
+                                        <td class="text-center">{{ $item->status == '0' ? 'pending':'completed' }}</td>
+                                        <td class="text-center" style="width: 25%;">
                                             <a href="{{ url('admin/view-order/' . $item->id) }}" class="btn btn-primary">View</a>
                                         </td>
                                     </tr>
