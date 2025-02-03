@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="card">
+<div class="card shadow-sm">
     <div class="card-body">
         <h4>Add Category</h4>
     </div>
